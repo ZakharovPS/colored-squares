@@ -66,7 +66,7 @@ NewLevel = function () {
     else {
       allSquares[i].style.backgroundColor = `rgb( ${randColor[0] - difference}, ${randColor[1] - difference}, ${randColor[2] - difference})`
       allSquares[i].onclick = function () {
-        Next()
+        AddSquares()
         NewLevel()
         levelNumber++
         level.textContent = "УРОВЕНЬ: " + levelNumber
@@ -75,7 +75,7 @@ NewLevel = function () {
   }
 }
 
-Next = function () {
+AddSquares = function () {
   let rows = document.getElementsByClassName("square-row")
   for (i = 0; i < rows.length; i++) {
     let newCell = document.createElement("div")
