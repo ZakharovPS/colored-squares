@@ -7,8 +7,9 @@ let level = document.querySelector(".level")
 
 let currentSec = 30;
 let timerId = null;
-var levelNumber = 1;
-var squareCount = 4;
+let levelNumber = 1;
+let squaresCountInRow = 2;
+
 
 window.onload = function () {
   NewLevel()
@@ -47,50 +48,49 @@ RandColor = function () {
 }
 
 NewLevel = function () {
+  let squareCount = square.childElementCount;
+  for (var i = 0; i < squareCount; i++)
+    square.removeChild(square.firstElementChild);
   let randColor = RandColor()
   let randSquare = Rand(1, squareCount)
   let difference = 100 / levelNumber;
-  for (i = 0; i < allSquares.length; i++) {
+  for (var i = 0; i < squaresCountInRow * squaresCountInRow; i++) {
+    var oneSquare = document.createElement("div");
+    oneSquare.className = "square-cell";
+    var squareSize = 500 / squaresCountInRow - 2;
+    oneSquare.style.margin = `1px`;
+    oneSquare.style.width = `${squareSize}px`;
+    oneSquare.style.height = `${squareSize}px`;
     if (i != randSquare - 1) {
-      allSquares[i].style.backgroundColor = `rgb( ${randColor[0]}, ${randColor[1]}, ${randColor[2]})`
-      allSquares[i].onclick = function () {
-        level.textContent = "ВЫ ДОШЛИ ДО " + levelNumber + " УРОВНЯ"
-        clearInterval(timerId);
-        timer.style.display = "none"
-        bot.style.display = "none"
-        restart.style.display = "block"
-        for (j = 0; j < allSquares.length; j++)
-          allSquares[j].onclick = function () { }
-      }
+      oneSquare.style.backgroundColor = `rgb( ${randColor[0]}, ${randColor[1]}, ${randColor[2]})`
+      oneSquare.onclick = endGame
     }
     else {
-      allSquares[i].style.backgroundColor = `rgb( ${randColor[0] - difference}, ${randColor[1] - difference}, ${randColor[2] - difference})`
-      allSquares[i].onclick = function () {
-        AddSquares()
-        NewLevel()
-        levelNumber++
-        level.textContent = "УРОВЕНЬ: " + levelNumber
-      }
+      oneSquare.style.backgroundColor = `rgb( ${randColor[0] - difference}, ${randColor[1] - difference}, ${randColor[2] - difference})`
+      oneSquare.onclick = continuationGame
     }
+    square.append(oneSquare);
   }
+  squaresCountInRow++
+}
+
+continuationGame = function () {
+  NewLevel()
+  levelNumber++
+  level.textContent = "УРОВЕНЬ: " + levelNumber
+}
+
+endGame = function () {
+  level.textContent = "ВЫ ДОШЛИ ДО " + levelNumber + " УРОВНЯ"
+  clearInterval(timerId);
+  timer.style.display = "none"
+  bot.style.display = "none"
+  restart.style.display = "block"
+  for (j = 0; j < allSquares.length; j++)
+    allSquares[j].onclick = function () { }
 }
 
 AddSquares = function () {
-  let rows = document.getElementsByClassName("square-row")
-  for (i = 0; i < rows.length; i++) {
-    let newCell = document.createElement("div")
-    newCell.className = "square-cell"
-    rows[i].appendChild(newCell)
-  }
-  let newRow = document.createElement("div")
-  newRow.className = "square-row"
-  square.appendChild(newRow)
-  for (i = 0; i < rows.length; i++) {
-    let newCell = document.createElement("div")
-    newCell.className = "square-cell"
-    rows[rows.length - 1].appendChild(newCell)
-  }
-  squareCount = rows.length * rows.length
 }
 
 findUniqueSquare = function () {

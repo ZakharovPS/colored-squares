@@ -49,26 +49,5 @@ a:hover
   width: 500px;
   height: 500px;
   display: flex;
-  flex-direction: column;
-}
-
-.square-row
-{
-  display: flex;
-  flex-basis: 50%;
-}
-
-.square-cell
-{
-    flex-basis: 50%;
-}
-
-.square-cell:not(:first-child)
-{
-  border-left: 2px solid #F4F5F6;
-}
-
-.square-row:not(:last-child)
-{
-  border-bottom: 2px solid #F4F5F6;
+  flex-wrap: wrap;
 }
