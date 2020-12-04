@@ -40,9 +40,9 @@ Rand = function (min, max) {
 }
 
 RandColor = function () {
-  let red = Rand(0, 255)
-  let green = Rand(0, 255)
-  let blue = Rand(0, 255)
+  let red = Rand(100, 255)
+  let green = Rand(100, 255)
+  let blue = Rand(100, 255)
   return [red, green, blue]
 }
 
